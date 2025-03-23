@@ -31,7 +31,10 @@ export default function Tablelist({ handleOpen, searchItem }) {
   };
 
   const filteredData = tbData.filter((client) =>
-    client.name.toLowerCase().includes(searchItem.toLowerCase())
+    client.name.toLowerCase().includes(searchItem.toLowerCase()) ||
+    client.job.toLowerCase().includes(searchItem.toLowerCase()) ||
+    client.email.toLowerCase().includes(searchItem.toLowerCase())
+
   );
 
   return (

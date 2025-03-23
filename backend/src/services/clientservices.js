@@ -1,6 +1,5 @@
 import { query } from "../db.js";
 
-
 export const getClients = async () => {
   try {
     const { rows } = await query("SELECT * FROM clients_tb");
@@ -18,13 +17,11 @@ export const createClient = async (client) => {
       [client.name, client.email, client.job, client.rate, client.isActive]
     );
     return rows[0];
-    
   } catch (error) {
     console.error("Error creating client:", error);
     throw new Error("Database error");
-    
   }
-}
+};
 
 export const updateClient = async (id, client) => {
   try {
@@ -33,31 +30,34 @@ export const updateClient = async (id, client) => {
       [client.name, client.email, client.job, client.rate, client.isActive, id]
     );
     return rows[0];
-  }
-  catch (error) {
+  } catch (error) {
     console.error("Error updating client:", error);
     throw new Error("Database error");
   }
-}
+};
 
 export const deleteClient = async (id) => {
   try {
-    const {rows} = await query("DELETE FROM clients_tb WHERE id=$1 RETURNING *", [id]);
+    const { rows } = await query(
+      "DELETE FROM clients_tb WHERE id=$1 RETURNING *",
+      [id]
+    );
     return rows[0];
   } catch (error) {
     console.error("Error deleting client:", error);
     throw new Error("Database error");
-
   }
-}
+};
 
 export const searchClient = async (search) => {
   try {
-    const { rows } = await query("SELECT * FROM clients_tb WHERE name ILIKE $1", [`%${search}%`]);
+    const { rows } = await query(
+      "SELECT * FROM clients_tb WHERE name ILIKE $1 OR email ILIKE $1 OR job ILIKE $1",
+      [`%${search}%`]
+    );
     return rows;
   } catch (error) {
     console.error("Error searching client:", error);
     throw new Error("Database error");
   }
-}
-
+};
